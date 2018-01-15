@@ -1,0 +1,3 @@
+﻿publish note
+============
+application will be run as 'LocalSystem'

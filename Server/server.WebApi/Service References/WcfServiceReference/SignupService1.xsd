@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/server.Data" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/server.Data" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="SignupInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FunEventId" type="xs:int" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SignupInput" nillable="true" type="tns:SignupInput" />
+  <xs:complexType name="SignupResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:AbstractResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ResourceId" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SignupResult" nillable="true" type="tns:SignupResult" />
+  <xs:complexType name="AbstractResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Errors" nillable="true" type="tns:ArrayOfError" />
+      <xs:element minOccurs="0" name="Status" type="tns:OperationStatus" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AbstractResult" nillable="true" type="tns:AbstractResult" />
+  <xs:complexType name="ArrayOfError">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Error" nillable="true" type="tns:Error" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfError" nillable="true" type="tns:ArrayOfError" />
+  <xs:complexType name="Error">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DetailError" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorType" type="tns:ErrorType" />
+      <xs:element minOccurs="0" name="MembershipName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Error" nillable="true" type="tns:Error" />
+  <xs:simpleType name="ErrorType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EmptyEntry" />
+      <xs:enumeration value="DataInvalid" />
+      <xs:enumeration value="BusinessInvalid" />
+      <xs:enumeration value="DBError" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ErrorType" nillable="true" type="tns:ErrorType" />
+  <xs:simpleType name="OperationStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Added" />
+      <xs:enumeration value="DuplicatedWhenAdding" />
+      <xs:enumeration value="ErrorsWhenAdding" />
+      <xs:enumeration value="DBError" />
+      <xs:enumeration value="NoError" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="OperationStatus" nillable="true" type="tns:OperationStatus" />
+  <xs:complexType name="QueryInput">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentPage" type="xs:int" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FunEvent" type="xs:int" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PageSize" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QueryInput" nillable="true" type="tns:QueryInput" />
+  <xs:complexType name="QueryResult">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:AbstractResult">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Records" nillable="true" type="tns:ArrayOfSignupRecord" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="QueryResult" nillable="true" type="tns:QueryResult" />
+  <xs:complexType name="ArrayOfSignupRecord">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SignupRecord" nillable="true" type="tns:SignupRecord" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSignupRecord" nillable="true" type="tns:ArrayOfSignupRecord" />
+  <xs:complexType name="SignupRecord">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Comments" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EventStartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FunEventId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunEventName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SignupRecord" nillable="true" type="tns:SignupRecord" />
+  <xs:complexType name="ArrayOfFunnyEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FunnyEvent" nillable="true" type="tns:FunnyEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFunnyEvent" nillable="true" type="tns:ArrayOfFunnyEvent" />
+  <xs:complexType name="FunnyEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EventStartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="FunEventId" type="xs:int" />
+      <xs:element minOccurs="0" name="FunEventName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FunnyEvent" nillable="true" type="tns:FunnyEvent" />
+</xs:schema>

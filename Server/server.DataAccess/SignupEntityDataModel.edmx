@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HomeworkModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FunEvents">
+          <Key>
+            <PropertyRef Name="FunEventId" />
+          </Key>
+          <Property Name="FunEventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="StartDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Signups">
+          <Key>
+            <PropertyRef Name="FunEventId" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="FunEventId" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Comments" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedDatetime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Signups_FunEvents">
+          <End Role="FunEvents" Type="Self.FunEvents" Multiplicity="1" />
+          <End Role="Signups" Type="Self.Signups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunEvents">
+              <PropertyRef Name="FunEventId" />
+            </Principal>
+            <Dependent Role="Signups">
+              <PropertyRef Name="FunEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeworkModelStoreContainer">
+          <EntitySet Name="FunEvents" EntityType="Self.FunEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Signups" EntityType="Self.Signups" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Signups_FunEvents" Association="Self.FK_Signups_FunEvents">
+            <End Role="FunEvents" EntitySet="FunEvents" />
+            <End Role="Signups" EntitySet="Signups" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HomeworkModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="FunEvent">
+          <Key>
+            <PropertyRef Name="FunEventId" />
+          </Key>
+          <Property Name="FunEventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StartDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Signups" Relationship="Self.FK_Signups_FunEvents" FromRole="FunEvents" ToRole="Signups" />
+        </EntityType>
+        <EntityType Name="Signup">
+          <Key>
+            <PropertyRef Name="FunEventId" />
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="FunEventId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Comments" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FunEvent" Relationship="Self.FK_Signups_FunEvents" FromRole="Signups" ToRole="FunEvents" />
+        </EntityType>
+        <Association Name="FK_Signups_FunEvents">
+          <End Role="FunEvents" Type="Self.FunEvent" Multiplicity="1" />
+          <End Role="Signups" Type="Self.Signup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunEvents">
+              <PropertyRef Name="FunEventId" />
+            </Principal>
+            <Dependent Role="Signups">
+              <PropertyRef Name="FunEventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeworkEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FunEvents" EntityType="Self.FunEvent" />
+          <EntitySet Name="Signups" EntityType="Self.Signup" />
+          <AssociationSet Name="FK_Signups_FunEvents" Association="Self.FK_Signups_FunEvents">
+            <End Role="FunEvents" EntitySet="FunEvents" />
+            <End Role="Signups" EntitySet="Signups" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HomeworkModelStoreContainer" CdmEntityContainer="HomeworkEntities">
+          <EntitySetMapping Name="FunEvents">
+            <EntityTypeMapping TypeName="HomeworkModel.FunEvent">
+              <MappingFragment StoreEntitySet="FunEvents">
+                <ScalarProperty Name="FunEventId" ColumnName="FunEventId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Signups">
+            <EntityTypeMapping TypeName="HomeworkModel.Signup">
+              <MappingFragment StoreEntitySet="Signups">
+                <ScalarProperty Name="FunEventId" ColumnName="FunEventId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="CreatedDatetime" ColumnName="CreatedDatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
